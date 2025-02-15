@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     private bool gameIsPaused = false;
     private int totalAmmo = 115;
     private int actualAmmo = 15;
+    private int playerLife = 15;
 
     void Awake()
     {
@@ -43,6 +44,10 @@ public class GameController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void PlayerHit(){
+        playerLife--;
     }
 
     public bool Reload(){
