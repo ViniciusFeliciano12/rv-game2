@@ -5,16 +5,16 @@ using UnityEngine.AI;
 
 public class EnemyAIController : MonoBehaviour
 {
-    public Transform player;  // Referência ao jogador
-    
+    private Transform player;
     private EnemyManager enemyManager;
     private AudioSource[] playerAudios;
     private NavMeshAgent agent;
     private Animator agentAnimator;
-    private const float fireCooldown = 0.7f;
     private float fireCooldownTimer = 0f;
     private int ammo = 15;
     private int lifes = 5;
+
+    private const float fireCooldown = 0.7f;
     private const float rayHeightOffset = 1.5f;
     private const float rotationSpeed = 5f;
     private const float maxDistance = 100f;
@@ -22,6 +22,7 @@ public class EnemyAIController : MonoBehaviour
 
     void Start()
     {
+        player = FindAnyObjectByType<PlayerController>().transform;
         enemyManager = FindObjectOfType<EnemyManager>();
         playerAudios = GetComponents<AudioSource>();
         agent = GetComponent<NavMeshAgent>();
@@ -40,6 +41,7 @@ public class EnemyAIController : MonoBehaviour
         lifes--;
 
         if (lifes == 0){
+            GameController.Instance.UpdateScore();
             agentAnimator.SetTrigger("Dying");
             enemyManager.SpawnEnemy();
             Destroy(gameObject, 4f);

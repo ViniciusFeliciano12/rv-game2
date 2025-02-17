@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     private float fireCooldownTimer = 0f;
 
     private bool dead = false;
-    private int lifes = 5;
 
     private float currentSpeed = 0f;
     private float speedSmoothVelocity = 0f;
@@ -43,9 +42,10 @@ public class PlayerController : MonoBehaviour
         if (GameController.Instance.VerifyGameState() || dead)
             return;
 
-        if (lifes == 0)
+        if (GameController.Instance.IsDead()){
             Die();
-
+        }
+    
         fireCooldownTimer -= Time.deltaTime;
 
         UpdateRotation();

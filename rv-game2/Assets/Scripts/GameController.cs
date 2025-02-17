@@ -4,6 +4,9 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public TextMeshProUGUI ammoCanvas;
+    public TextMeshProUGUI lifeCanvas;
+    public TextMeshProUGUI scoreCanvas;
+
 
     public static GameController Instance { get; set; }
     
@@ -11,6 +14,8 @@ public class GameController : MonoBehaviour
     private int totalAmmo = 115;
     private int actualAmmo = 15;
     private int playerLife = 15;
+
+    private int score = 0;
 
     void Awake()
     {
@@ -22,11 +27,18 @@ public class GameController : MonoBehaviour
 
         Instance = this;  
         DynamicGI.UpdateEnvironment();
-        ResetAmmoCanvas();
+        ResetCanvas();
     }
 
-    private void ResetAmmoCanvas(){
+    private void ResetCanvas(){
         ammoCanvas.text = $"Ammo: {actualAmmo}/{totalAmmo}";
+        lifeCanvas.text = $"Life: {playerLife}/15";
+        scoreCanvas.text = $"{score}";
+    }
+
+    public void UpdateScore(){
+        score++;
+        ResetCanvas();
     }
 
     public void PauseResumeGame(bool state){
@@ -40,7 +52,7 @@ public class GameController : MonoBehaviour
     public bool Fire(){
         if (actualAmmo > 0){
             actualAmmo--;
-            ResetAmmoCanvas();
+            ResetCanvas();
             return true;
         }
         return false;
@@ -48,24 +60,28 @@ public class GameController : MonoBehaviour
 
     public void PlayerHit(){
         playerLife--;
+        ResetCanvas();
+    }
+    
+    public bool IsDead(){
+        return playerLife <= 0;
     }
 
     public bool Reload(){
         var howManyAmmo = 15 - actualAmmo;
-
+        bool value = false;
         if (howManyAmmo > 0 && totalAmmo > 15){
             actualAmmo += howManyAmmo;
             totalAmmo -= howManyAmmo;
-            ResetAmmoCanvas();
-            return true;
+            value = true;
         }
         else if(howManyAmmo > 0 && totalAmmo > 0){
             actualAmmo += totalAmmo;
             totalAmmo = 0;
-            ResetAmmoCanvas();
-            return true;
+            value = true;
         }
 
-        return false;
+        ResetCanvas();
+        return value;
     }
 }
