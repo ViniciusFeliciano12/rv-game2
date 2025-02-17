@@ -25,7 +25,7 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < maxAttempts; i++)
         {
             Vector2 randomCircle = Random.insideUnitCircle * range; // Gera ponto no círculo
-            Vector3 randomPoint = new Vector3(center.x + randomCircle.x, center.y, center.z + randomCircle.y);
+            Vector3 randomPoint = new(center.x + randomCircle.x, center.y, center.z + randomCircle.y);
 
             if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
             {

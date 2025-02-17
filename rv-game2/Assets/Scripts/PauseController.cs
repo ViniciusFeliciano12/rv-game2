@@ -37,6 +37,7 @@ public class PauseController : MonoBehaviour
 
     public void ExitGame(){
         ResumeGame();
+        Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene(0);
     }
 }

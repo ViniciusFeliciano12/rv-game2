@@ -18,7 +18,7 @@ public class EnemyAIController : MonoBehaviour
     private const float rayHeightOffset = 1.5f;
     private const float rotationSpeed = 5f;
     private const float maxDistance = 100f;
-    private const float hitChance = 0.3f; 
+    private float hitChance = 0.3f; 
 
     void Start()
     {
@@ -27,6 +27,24 @@ public class EnemyAIController : MonoBehaviour
         playerAudios = GetComponents<AudioSource>();
         agent = GetComponent<NavMeshAgent>();
         agentAnimator = GetComponent<Animator>();
+
+        switch(GameController.Instance.GetDifficulty()){
+            case Difficulty.Easy: 
+                ammo = 10;
+                hitChance = 0.3f;
+                lifes = 2;
+                break;
+            case Difficulty.Medium: 
+                ammo = 15;
+                hitChance = 0.5f;
+                lifes = 5;
+                break;
+            case Difficulty.Hard: 
+                ammo = 20;
+                hitChance = 0.7f;
+                lifes = 7;
+                break;
+        }
     }
 
     void Update()
