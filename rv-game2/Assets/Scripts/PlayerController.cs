@@ -148,11 +148,13 @@ public class PlayerController : MonoBehaviour
 
     void Firing()
     {
-        if (GameController.Instance.Fire() && !IsPlayingAnimation("jumping") && !IsPlayingAnimation("reloading"))
+        if (!IsPlayingAnimation("jumping") && !IsPlayingAnimation("reloading"))
         {
-            playerAudios[0].Play();
-            playerAnimator.SetTrigger("Shooting");
-            ShootRaycast();
+            if(GameController.Instance.Fire()){
+                playerAudios[0].Play();
+                playerAnimator.SetTrigger("Shooting");
+                ShootRaycast();
+            }
         }
     }
     bool IsPlayingAnimation(string animationName)
